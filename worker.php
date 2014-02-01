@@ -1,8 +1,8 @@
 <?php 
 class worker
 {
-	public function SharePixel($pixel){
-        $r = ($pixel >> 16) & 0xFF;
+    public function SharePixel($pixel){
+		$r = ($pixel >> 16) & 0xFF;
         $g = ($pixel >> 8) & 0xFF;
         $b = $pixel & 0xFF;
         if ($r == 0){$r = 1; }
@@ -33,7 +33,8 @@ class worker
         else {$image1 = imagecreatetruecolor((imagesx($image2)-17), (imagesy($image2)));}
         imagecopymerge($image1, $image2, 0, 0, 0, 0, imagesx($image1), imagesy($image1), 100);
         $imageS = imagecreatetruecolor($x, $y);
-        imagecopyresampled($imageS, $image1, 0, 0, 0, 0, imagesx($imageS), imagesy($imageS), imagesx($image1), imagesy($image1));
+        imagecopyresampled($imageS, $image1, 0, 0, 0, 0, imagesx($imageS), imagesy($imageS), 
+                           imagesx($image1), imagesy($image1));
         return $imageS;
     }
     
