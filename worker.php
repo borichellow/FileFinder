@@ -89,7 +89,9 @@ class worker
 }
 $worker = new worker();
 $worker->hardWork($argv[1], $argv[2], $argv[3]);
-// var_dump($worker->hardWork("http://static6.depositphotos.com/1006472/614/i/170/depositphotos_6149688-Drunk-man.jpg", 
-// 	"http://thumb7.shutterstock.com/thumb_large/191161/191161,1311093697,1/stock-photo-drunk-man-at-the-pub-table-with-a-glass-of-beer-81265270.jpg", 
-// 	"81265270"));
 
+// $t = microtime(true);
+// var_dump($worker->hardWork("/Users/boris/Desktop/1.jpg", 
+//     "/Users/boris/Desktop/1.jpg", 
+//     "81265270"));
+// echo microtime(true) - $t;

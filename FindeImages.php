@@ -33,7 +33,7 @@ class FindeImages
         print "Analiz...\n";
         while ( $i < count($arrayShutter)) { 
             $results = array();
-            for ($ii=0; $ii < 300; $ii++){
+            for ($ii=0; $ii < 200; $ii++){
                 //print " ii: ". $ii;
                 $results[] = $arrayShutter[$i]['id'];
                 exec("php worker.php ".$valueD." ".$arrayShutter[$i]['thumb']." ".$arrayShutter[$i]['id']." >> /dev/null &");  

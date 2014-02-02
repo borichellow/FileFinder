@@ -3,7 +3,6 @@ include_once "ShutterstockFiles.php";
 include_once "FindeImages.php";
 include_once "GetDataFromShutter.php";
 include_once "NormalizationPortfolioURL.php";
-include_once "CashFiles.php";
 
 class FileFinder
 {
@@ -12,7 +11,6 @@ class FileFinder
         $finder = new FindeImages();
         $getdata = new GetDataFromShutter();
         $normalURL = new NormalizationPortfolioURL();
-        $cash = new CashFiles();
 
         $time = microtime(true);
         $Portfolio = $normalURL->GetNormalURL($Portfolio);
@@ -38,16 +36,21 @@ $compare = new FileFinder();
         '25860275'=>'http://st.depositphotos.com/1000270/2586/i/110/depositphotos_25860275-Homemade-apple-pie-marked-up-as-pie-chart.jpg',
         '1022762'=>'http://static3.depositphotos.com/1000270/102/i/170/depositphotos_1022762-Two-Hot-air-balloons-bumping.jpg',
         '8956663'=>'http://static8.depositphotos.com/1000270/895/i/170/depositphotos_8956663-Martin-Luther-King-Monument-DC.jpg',
-        '2825740'=>'http://static4.depositphotos.com/1000270/282/i/170/depositphotos_2825740-Sphinx-and-Giza-Pyramids-in-Egypt.jpg'),
+        '2825740'=>'http://static4.depositphotos.com/1000270/282/i/170/depositphotos_2825740-Sphinx-and-Giza-Pyramids-in-Egypt.jpg',
+        '17507811'=>'http://st.depositphotos.com/1000270/1750/i/170/depositphotos_17507811-Keep-off-dunes-sign-in-Florida.jpg',
+        '13618273'=>'http://st.depositphotos.com/1000270/1361/i/170/depositphotos_13618273-Steeple-of-Fredericksburg-County-Courthouse.jpg'),
      'http://www.shutterstock.com/gallery-138433p2.html'
-    ));    //900 seconds!!!    -- 1400 seconds!!!
+   ));    //1200 seconds!!!   
 
  // var_dump($compare->FindData(
  //     array('26995965'=>'http://st.depositphotos.com/1557418/2699/v/110/depositphotos_26995965-Vector-travel-car.jpg',
  //        '30194411'=>'http://st.depositphotos.com/1557418/3019/v/110/depositphotos_30194411-Funny-school-bus-illustration.jpg',
- //        '36794227'=>'http://st.depositphotos.com/1557418/3679/v/170/depositphotos_36794227-Car-icon-set.jpg'),
+ //        '36794227'=>'http://st.depositphotos.com/1557418/3679/v/170/depositphotos_36794227-Car-icon-set.jpg',
+ //        '18463163'=>'http://st.depositphotos.com/1557418/1846/v/170/depositphotos_18463163-Cinema-icon.jpg',
+ //        '30194337'=>'http://st.depositphotos.com/1557418/3019/v/170/depositphotos_30194337-Vector-flat-icon.jpg',
+ //        '25146565'=>'http://st.depositphotos.com/1557418/2514/v/170/depositphotos_25146565-Hot-chocolate-splash.jpg'),
  //     'http://www.shutterstock.com/cat.mhtml?gallery_id=844213'
- //    ));    // 25 seconds!!!
+ //    ));    // 250 seconds!!!
 
 // var_dump($compare->FindData(
 //     array('30748923'=>'http://st.depositphotos.com/1017397/3074/v/170/depositphotos_30748923-Map-of-Mauritania.jpg',
