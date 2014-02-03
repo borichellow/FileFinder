@@ -81,10 +81,10 @@ class worker
     }
 
     public function hardWork($depositThumbURL, $shutterstockThumbURL, $shutterID){
-    	//$time = microtime(true);
+    	$time = microtime(true);
     	$result = $this->Comparator($depositThumbURL, $shutterstockThumbURL);
     	file_put_contents("./Results/".$shutterID.".txt", $result);
-		//var_dump(microtime(true) - $time);
+		var_dump(microtime(true) - $time);
     }
 	
 }
@@ -92,7 +92,7 @@ $worker = new worker();
 $worker->hardWork($argv[1], $argv[2], $argv[3]);
 
 // $t = microtime(true);
-// var_dump($worker->hardWork("/Users/boris/Desktop/1.jpg", 
-//     "/Users/boris/Desktop/1.jpg", 
-//     "81265270"));
+// $worker->hardWork("http://st.depositphotos.com/1004049/1623/i/170/depositphotos_16230645-Sporty-woman.jpg", 
+//     "http://st.depositphotos.com/1004049/1623/i/170/depositphotos_16230645-Sporty-woman.jpg", 
+//     "81265270");
 // echo microtime(true) - $t;

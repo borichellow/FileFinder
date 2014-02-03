@@ -3,6 +3,8 @@ include_once "ShutterstockFiles.php";
 include_once "FindeImages.php";
 include_once "GetDataFromShutter.php";
 include_once "NormalizationPortfolioURL.php";
+include_once "CashFiles.php";
+
 
 class FileFinder
 {
@@ -10,6 +12,7 @@ class FileFinder
         $files = new ShutterstockFiles();
         $finder = new FindeImages();
         $getdata = new GetDataFromShutter();
+        $cash = new CashFiles();
         $normalURL = new NormalizationPortfolioURL();
 
         $time = microtime(true);
@@ -23,8 +26,8 @@ class FileFinder
             $Data[$key] = $getdata->GetFileData($value);
         }
         var_dump(microtime(true) - $time);
-        return $Data;
-        //return "END! ".count($Data). " files found!!!";
+        //return $Data;
+        return "END! ".count($Data). " files found!!!";
     }
 }
 

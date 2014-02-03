@@ -33,13 +33,15 @@ class FindeImages
         print "Analiz...\n";
         while ( $i < count($arrayShutter)) { 
             $results = array();
-            for ($ii=0; $ii < 200; $ii++){
+            $t = microtime(true);
+            for ($ii=0; $ii < 300; $ii++){
                 //print " ii: ". $ii;
                 $results[] = $arrayShutter[$i]['id'];
                 exec("php worker.php ".$valueD." ".$arrayShutter[$i]['thumb']." ".$arrayShutter[$i]['id']." >> /dev/null &");  
                 $i++;
                 if($i == count($arrayShutter)){break;}
             }
+            print "time for workers: ". (microtime(true) - $t). "\n";
             $this->Waiter($results);
             //print "Analiz...\n";
             $result = $this->resultAnaliz($results);
@@ -63,7 +65,7 @@ class FindeImages
             if ($id != 0){
                 $IDsArray[$keyD] = $id;
             }
-            exec("rm Results/*.txt");
+            exec("rm ./Results/*.txt");
         }
         return $IDsArray;
     }
