@@ -2,9 +2,10 @@
 include_once "ShutterstockFiles.php";
 include_once "FindeImages.php";
 include_once "GetDataFromShutter.php";
-include_once "NormalizationPortfolioURL.php";
+include_once "PreCondition.php";
 include_once "CashFiles.php";
-
+include_once "ConvertToXml.php";
+include_once "PostCondition.php";
 
 class FileFinder
 {
@@ -13,21 +14,26 @@ class FileFinder
         $finder = new FindeImages();
         $getdata = new GetDataFromShutter();
         $cash = new CashFiles();
-        $normalURL = new NormalizationPortfolioURL();
+        $pre = new PreCondition();
+        $toxml = new ConvertToXml();
+        $post = new PostCondition();
 
         $time = microtime(true);
-        $Portfolio = $normalURL->GetNormalURL($Portfolio);
+        $Pre = $pre->PreConditions($Portfolio);
+        $Portfolio = $Pre['url'];
+        $folder = $Pre['folder'];
         var_dump(microtime(true) - $time);
-        $AllFilesShuter = $files->ShutterFiles($Portfolio);
+        $AllFilesShuter = $files->ShutterFiles($Portfolio, $folder);
         var_dump(microtime(true) - $time);
-        $ID_deposit_shutter = $finder->FindeImage($FileThumbs, $AllFilesShuter);
+        $ID_deposit_shutter = $finder->FindeImage($FileThumbs, $AllFilesShuter, $folder);
         var_dump(microtime(true) - $time);
-        foreach ($ID_deposit_shutter as $key => $value) {
-            $Data[$key] = $getdata->GetFileData($value);
-        }
+        $Data = $getdata->GetData($ID_deposit_shutter, $folder);
         var_dump(microtime(true) - $time);
-        //return $Data;
-        return "END! ".count($Data). " files found!!!";
+        $Data = $toxml->convert($Data);
+        var_dump(microtime(true) - $time);
+        $post->PostConditions($folder);
+        return $Data;
+        //return "END! ".count($Data). " files found!!!";
     }
 }
 

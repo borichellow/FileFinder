@@ -2,12 +2,12 @@
 class ShutterstockFiles
 {
 
-	public function Waiter($results){
+	private function Waiter($results, $folder){
         echo "Waiting fot workers...Shutter Portfolio\n";
         do{
             $flag = "yes";
             foreach ($results as $page) {
-                if(!(file_exists("./ShutterFiles/".$page.".txt"))){
+                if(!(file_exists("./".$folder."/ShutterFiles/".$page.".txt"))){
                     $flag = "no";
                     break;
                 }
@@ -15,13 +15,13 @@ class ShutterstockFiles
         }while($flag == "no");
     }
 
-	public function UniUrl($url){
+	private function UniUrl($url){
 		$urlNew = preg_replace("/.\.html/" , "", $url);
 		return $urlNew;
 
 	}
 
-	public function GetCountOfFiles($portfolio){
+	private function GetCountOfFiles($portfolio){
 		$portfolio = file_get_contents($portfolio);
         preg_match_all('/id="pf_num_images">.*<\/li>/', $portfolio, $count1);
         preg_match('/\d+/', $count1[0][0], $count);
@@ -29,11 +29,11 @@ class ShutterstockFiles
         return $count;
     }
 
-    public function ParseAll($results){
+    private function ParseAll($results, $folder){
     	echo "Parsing files...Shutter Portfolio\n";
     	$array = array();
     	foreach ($results as $page) {
-   			$file = json_decode(file_get_contents("./ShutterFiles/".$page.".txt"), true);
+   			$file = json_decode(file_get_contents("./".$folder."/ShutterFiles/".$page.".txt"), true);
    			foreach ($file as $value) {
    				$array[] = $value;
    			}
@@ -41,7 +41,7 @@ class ShutterstockFiles
        	return $array;
     }
 
-    public function WorkersTime($PortfolioURL, $countFiles){
+    private function WorkersTime($PortfolioURL, $countFiles, $folder){
     	$i = 1 ; 
     	$arrayShutter = array();
     	$countPages = (int)($countFiles/100)+1;
@@ -49,18 +49,18 @@ class ShutterstockFiles
     		$results = array();
     		for ($ii = 0; $ii < 300; $ii++){
     			$results[]= $i;
-    			exec("php workerShutterFiles.php ".$PortfolioURL.$i.".html ".$i." >> /dev/null &");
+    			exec("php workerShutterFiles.php ".$PortfolioURL.$i.".html ".$i." ".$folder." >> /dev/null &");
     			$i++;
     			if($i > $countPages){break;}
     		}
-    		$this->Waiter($results);
-    		$arrayShutter = array_merge($arrayShutter , $this->ParseAll($results));
+    		$this->Waiter($results, $folder);
+    		$arrayShutter = array_merge($arrayShutter , $this->ParseAll($results, $folder));
     	}
-    	exec("rm ./ShutterFiles/*.txt");
+    	exec("rm ./".$folder."/ShutterFiles/*.txt");
     	return $arrayShutter;
     }
 
-    public function NormalizationShutterArray($arrayShutter){
+    private function NormalizationShutterArray($arrayShutter){
         $array = array();
         foreach ($arrayShutter as $value) {
             preg_match("/-\d+\.jpg/", $value, $arr);
@@ -70,10 +70,10 @@ class ShutterstockFiles
         return $array;
     }
 
-    public function ShutterFiles($PortfolioURL){
+    public function ShutterFiles($PortfolioURL, $folder){
     	$countFiles = $this->GetCountOfFiles($PortfolioURL);
     	$PortfolioURL = $this->UniUrl($PortfolioURL);
-    	$arrayShutter = $this->WorkersTime($PortfolioURL, $countFiles);
+    	$arrayShutter = $this->WorkersTime($PortfolioURL, $countFiles, $folder);
     	$arrayShutter = $this->NormalizationShutterArray($arrayShutter);
     	return $arrayShutter;
     }

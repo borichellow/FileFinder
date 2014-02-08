@@ -1,25 +1,47 @@
 <?php 
 class GetDataFromShutter
 {
-	/*
-    $Thumb: id of file on Shutter
-    $data: array('title' => 'Title of file', 'keywords' => 'KeyWords of file')
+    private function waiter($results, $folder){
+        echo "Waiting fot workers...Geter Data from Shutter\n";
+        do{
+            $flag = "yes";
+            foreach ($results as $file) {
+                if(!(file_exists("./".$folder."/Data/".$file.".txt"))){
+                    $flag = "no";
+                    break;
+                }
+            }
+        }while($flag == "no");
+    }
+
+    private function resultAnalis($results, $folder, &$fileData){
+        echo "Parsing Data from Shutter...\n";
+        foreach ($results as $deposit => $shutter) {
+            $data = json_decode(file_get_contents("./".$folder."/Data/".$shutter.".txt"), true);
+            $fileData[] = array('id' => $deposit, 'title' => $data['title'], 'keywords' => $data['keywords']);
+        }
+    }
+/*
+    $ID_deposit_shutter:  array('deposit' => depositID, 'shutter' => shutterID)
+    $fileData:  array('id' => depositID, 'title' => file's title, 'keywords' => file's kewords)
 */
 
-    public function GetFileData($ID){
-        $url = "http://www.shutterstock.com/pic.mhtml?id=".$ID."&src=id";
-        $page = file_get_contents($url);
-        preg_match_all('/<h1>.*/', $page, $title);
-        $title = preg_replace("/<h1>/", "", $title[0]);
-        
-        preg_match_all('/id="kw_\d+".*<\/a>/', $page, $KW);
-        foreach ($KW[0] as $value) {
-            $arr[] = preg_replace(array('/.*html">/', '/<\/a>/'), "", $value);
+    public function GetData($ID_deposit_shutter, $folder){
+        $i = 0;
+        $count = count($ID_deposit_shutter);
+        $fileData = array();
+        while ($i < $count) {
+            $results = array();
+            for ($ii = 0 ; $ii < 200 ; $ii++){
+                $results[$ID_deposit_shutter[$i]['deposit']] = $ID_deposit_shutter[$i]['shutter'];
+                exec("php workerGeter.php ".$ID_deposit_shutter[$i]['shutter']." ".$folder." >> /dev/null &");
+                $i ++;
+                if($i == $count){break;}
+            }
+            $this->waiter($results, $folder);
+            $this->resultAnalis($results, $folder, $fileData);
         }
-        $keyWords = implode(", ", $arr);
-
-        $data = array('title' => $title[0], 'keywords' => $keyWords);
-        return $data;
+        return $fileData;
     }
 
 }

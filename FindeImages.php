@@ -2,13 +2,12 @@
 
 class FindeImages
 {
-
-    public function Waiter($results){
-        echo "Waiting fot workers...\n";
+    private function waiter($results, $folder){
+        echo "Waiting fot workers...Search for file\n";
         do{
             $flag = "yes";
             foreach ($results as $file) {
-                if(!(file_exists("./Results/".$file.".txt"))){
+                if(!(file_exists("./".$folder."/Results/".$file.".txt"))){
                     $flag = "no";
                     break;
                 }
@@ -16,10 +15,10 @@ class FindeImages
         }while($flag == "no");
     }
 
-    public function resultAnaliz($results){
+    private function resultAnaliz($results, $folder){
         $result = 0;
         foreach ($results as $file) {
-            $coef = file_get_contents("./Results/".$file.".txt");
+            $coef = file_get_contents("./".$folder."/Results/".$file.".txt");
             if($coef > 0.8){
                 $result = $file;
                 break;
@@ -28,24 +27,22 @@ class FindeImages
         return $result;
     }
 
-    public function findShutterImage($valueD, $arrayShutter){
+    private function findShutterImage($valueD, $arrayShutter, $folder){
         $i = 0;
-        print "Analiz...\n";
+        print "Searching for file...\n";
         while ( $i < count($arrayShutter)) { 
             $results = array();
             $t = microtime(true);
             for ($ii=0; $ii < 300; $ii++){
-                //print " ii: ". $ii;
                 $results[] = $arrayShutter[$i]['id'];
-                exec("php worker.php ".$valueD." ".$arrayShutter[$i]['thumb']." ".$arrayShutter[$i]['id']." >> /dev/null &");  
+                exec("php worker.php ".$valueD." ".$arrayShutter[$i]['thumb']." ".$arrayShutter[$i]['id']." ".$folder." >> /dev/null &");  
                 $i++;
                 if($i == count($arrayShutter)){break;}
             }
-            print "time for workers: ". (microtime(true) - $t). "\n";
-            $this->Waiter($results);
+            //print "time for workers: ". (microtime(true) - $t). "\n";
+            $this->waiter($results, $folder);
             //print "Analiz...\n";
-            $result = $this->resultAnaliz($results);
-            //print "result: ".$result. "\n";
+            $result = $this->resultAnaliz($results, $folder);
             if ($result != 0){
                 print "result: ".$result. "\n";
                 break;
@@ -58,14 +55,15 @@ class FindeImages
     $arrayShutter: array('id' => 'ID on Shutter', 'thumb' => 'Thumb on Shutter')
     return: IDsArray: 'depositID' => 'shutterID'
 */
-    public function FindeImage($arrayDeposit, $arrayShutter){
+    public function FindeImage($arrayDeposit, $arrayShutter, $folder){
         $IDsArray = array();
         foreach ($arrayDeposit as $keyD => $valueD) {
-            $id = $this->findShutterImage($valueD, $arrayShutter);
+            $id = $this->findShutterImage($valueD, $arrayShutter, $folder);
             if ($id != 0){
-                $IDsArray[$keyD] = $id;
+                //$IDsArray[$keyD] = $id;
+                $IDsArray[] = array('deposit' => $keyD, 'shutter' => $id);
             }
-            exec("rm ./Results/*.txt");
+            exec("rm ./".$folder."/Results/*.txt");
         }
         return $IDsArray;
     }

@@ -80,16 +80,16 @@ class worker
         } else {return 0;}
     }
 
-    public function hardWork($depositThumbURL, $shutterstockThumbURL, $shutterID){
-    	$time = microtime(true);
+    public function hardWork($depositThumbURL, $shutterstockThumbURL, $shutterID, $folder){
+    	//$time = microtime(true);
     	$result = $this->Comparator($depositThumbURL, $shutterstockThumbURL);
-    	file_put_contents("./Results/".$shutterID.".txt", $result);
-		var_dump(microtime(true) - $time);
+    	file_put_contents("./".$folder."/Results/".$shutterID.".txt", $result);
+		//var_dump(microtime(true) - $time);
     }
 	
 }
 $worker = new worker();
-$worker->hardWork($argv[1], $argv[2], $argv[3]);
+$worker->hardWork($argv[1], $argv[2], $argv[3], $argv[4]);
 
 // $t = microtime(true);
 // $worker->hardWork("http://st.depositphotos.com/1004049/1623/i/170/depositphotos_16230645-Sporty-woman.jpg", 
