@@ -18,12 +18,13 @@ class GetDataFromShutter
         echo "Parsing Data from Shutter...\n";
         foreach ($results as $deposit => $shutter) {
             $data = json_decode(file_get_contents("./".$folder."/Data/".$shutter.".txt"), true);
-            $fileData[] = array('id' => $deposit, 'title' => $data['title'], 'keywords' => $data['keywords']);
+            $fileData[] = array('item_id' => $deposit, 'title' => $data['title'], 'keywords' => $data['keywords'],
+                                 'shutterstock_item_id' => $shutter);
         }
     }
 /*
     $ID_deposit_shutter:  array('deposit' => depositID, 'shutter' => shutterID)
-    $fileData:  array('id' => depositID, 'title' => file's title, 'keywords' => file's kewords)
+    $fileData:  array('item_id' , 'title', 'keywords', 'shutterstock_item_id')
 */
 
     public function GetData($ID_deposit_shutter, $folder){

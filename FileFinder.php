@@ -4,24 +4,25 @@ include_once "FindeImages.php";
 include_once "GetDataFromShutter.php";
 include_once "PreCondition.php";
 include_once "CashFiles.php";
-include_once "ConvertToXml.php";
+include_once "ConvertRezult.php";
 include_once "PostCondition.php";
 
 class FileFinder
 {
-    public function FindData($FileThumbs, $Portfolio){
+    public function FindData($File){
         $files = new ShutterstockFiles();
         $finder = new FindeImages();
         $getdata = new GetDataFromShutter();
         $cash = new CashFiles();
         $pre = new PreCondition();
-        $toxml = new ConvertToXml();
+        $convert = new ConvertRezult();
         $post = new PostCondition();
 
         $time = microtime(true);
-        $Pre = $pre->PreConditions($Portfolio);
-        $Portfolio = $Pre['url'];
-        $folder = $Pre['folder'];
+        $Pre = $pre->PreConditions($File);
+        $Portfolio = $Pre['shutterstock_profile_url'];
+        $folder = $Pre['user_id'];
+        $FileThumbs = $Pre['items'];
         var_dump(microtime(true) - $time);
         $AllFilesShuter = $files->ShutterFiles($Portfolio, $folder);
         var_dump(microtime(true) - $time);
@@ -29,7 +30,7 @@ class FileFinder
         var_dump(microtime(true) - $time);
         $Data = $getdata->GetData($ID_deposit_shutter, $folder);
         var_dump(microtime(true) - $time);
-        $Data = $toxml->convert($Data);
+        $Data = $convert->convertToJson($Data, $folder, $AllFilesShuter);
         var_dump(microtime(true) - $time);
         $post->PostConditions($folder);
         return $Data;
@@ -39,17 +40,18 @@ class FileFinder
 
 
 $compare = new FileFinder();
- var_dump($compare->FindData(
-     array('11461317'=>'http://static9.depositphotos.com/1000270/1146/i/110/depositphotos_11461317-Freshly-baked-homemade-apple-pie.jpg',
-        '9452106'=>'http://static8.depositphotos.com/1000270/945/i/110/depositphotos_9452106-Home-made-apple-and-strawberry-pie-ice-cream.jpg',
-        '25860275'=>'http://st.depositphotos.com/1000270/2586/i/110/depositphotos_25860275-Homemade-apple-pie-marked-up-as-pie-chart.jpg',
-        '1022762'=>'http://static3.depositphotos.com/1000270/102/i/170/depositphotos_1022762-Two-Hot-air-balloons-bumping.jpg',
-        '8956663'=>'http://static8.depositphotos.com/1000270/895/i/170/depositphotos_8956663-Martin-Luther-King-Monument-DC.jpg',
-        '2825740'=>'http://static4.depositphotos.com/1000270/282/i/170/depositphotos_2825740-Sphinx-and-Giza-Pyramids-in-Egypt.jpg',
-        '17507811'=>'http://st.depositphotos.com/1000270/1750/i/170/depositphotos_17507811-Keep-off-dunes-sign-in-Florida.jpg',
-        '13618273'=>'http://st.depositphotos.com/1000270/1361/i/170/depositphotos_13618273-Steeple-of-Fredericksburg-County-Courthouse.jpg'),
-     'http://www.shutterstock.com/gallery-138433p2.html'
-   ));    //1200 seconds!!!   
+var_dump($compare->FindData("./1.txt"));
+ // var_dump($compare->FindData(
+ //     array('11461317'=>'http://static9.depositphotos.com/1000270/1146/i/110/depositphotos_11461317-Freshly-baked-homemade-apple-pie.jpg',
+ //        '9452106'=>'http://static8.depositphotos.com/1000270/945/i/110/depositphotos_9452106-Home-made-apple-and-strawberry-pie-ice-cream.jpg',
+ //        '25860275'=>'http://st.depositphotos.com/1000270/2586/i/110/depositphotos_25860275-Homemade-apple-pie-marked-up-as-pie-chart.jpg',
+ //        '1022762'=>'http://static3.depositphotos.com/1000270/102/i/170/depositphotos_1022762-Two-Hot-air-balloons-bumping.jpg',
+ //        '8956663'=>'http://static8.depositphotos.com/1000270/895/i/170/depositphotos_8956663-Martin-Luther-King-Monument-DC.jpg',
+ //        '2825740'=>'http://static4.depositphotos.com/1000270/282/i/170/depositphotos_2825740-Sphinx-and-Giza-Pyramids-in-Egypt.jpg',
+ //        '17507811'=>'http://st.depositphotos.com/1000270/1750/i/170/depositphotos_17507811-Keep-off-dunes-sign-in-Florida.jpg',
+ //        '13618273'=>'http://st.depositphotos.com/1000270/1361/i/170/depositphotos_13618273-Steeple-of-Fredericksburg-County-Courthouse.jpg'),
+ //     'http://www.shutterstock.com/gallery-138433p2.html'
+ //   ));    //1200 seconds!!!   
 
  // var_dump($compare->FindData(
  //     array('26995965'=>'http://st.depositphotos.com/1557418/2699/v/110/depositphotos_26995965-Vector-travel-car.jpg',

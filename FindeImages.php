@@ -19,9 +19,12 @@ class FindeImages
         $result = 0;
         foreach ($results as $file) {
             $coef = file_get_contents("./".$folder."/Results/".$file.".txt");
-            if($coef > 0.8){
+            if($coef > 0.85){
                 $result = $file;
                 break;
+            }
+            if($coef == "!!! Some image can not be downloaded !!!\n!!! CHECK CONNOCTION TO INTERNET !!!"){
+                print $coef;
             }
         }
         return $result;

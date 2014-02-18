@@ -25,15 +25,15 @@ class PreCondition
         return $PortfolioURL;
     }
 
-    public function PreConditions($PortfolioURL){
-        $PortfolioURL = $this->GetNormalURL($PortfolioURL);
-        $folder = preg_replace(array("/http:\/\/www.shutterstock.com\/gallery-/", "/\.html/", "/p1/"), "", $PortfolioURL);
-        //var_dump($folder);
+    public function PreConditions($file){
+        $file = json_decode(file_get_contents($file),true);
+        $file['shutterstock_profile_url'] = $this->GetNormalURL($file['shutterstock_profile_url']);
+        $folder = $file['user_id'];
         exec("mkdir ".$folder);
         exec("mkdir ".$folder."/ShutterFiles");
         exec("mkdir ".$folder."/Results");
         exec("mkdir ".$folder."/Data");
-        return array('url' => $PortfolioURL, 'folder' => $folder);
+        return $file;
     }
 }
 
