@@ -97,7 +97,7 @@ class worker
                                 }
                             }
                             $square ++;
-                            if ($count/($arrayX[1]*$arrayY[1]*$square) <0.5){$count = 0;  break;}
+                            if ($count/($arrayX[1]*$arrayY[1]*$square) <0.7){$count = 0;  break;}
                             $ii ++;
                         }while ($ii < 4);
                         $i ++;

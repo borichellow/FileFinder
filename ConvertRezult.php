@@ -42,7 +42,7 @@ class ConvertRezult
 	public function convertToJson($data, $folder, $AllFilesShuter){
 		$data = $this->NormalizationOfDataArray($data, $AllFilesShuter);
 		$data = json_encode(array('items' => $data));
-		//file_put_contents("./resultFor".$folder.".txt", $data);
+		file_put_contents("./resultFor".$folder.".txt", $data);
 		return $data;
 	}
 }

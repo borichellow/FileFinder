@@ -1,13 +1,13 @@
 <?php
-file_put_contents("1.txt", json_encode(array(
+file_put_contents("1.json", json_encode(array(
 	"user_id" => "1557418",
 	"shutterstock_profile_url" => "http://www.shutterstock.com/cat.mhtml?gallery_id=844213",
-	"items" => array('26995965'=>'http://st.depositphotos.com/1557418/2699/v/110/depositphotos_26995965-Vector-travel-car.jpg',
-        '30194411'=>'http://st.depositphotos.com/1557418/3019/v/110/depositphotos_30194411-Funny-school-bus-illustration.jpg',
-        '36794227'=>'http://st.depositphotos.com/1557418/3679/v/170/depositphotos_36794227-Car-icon-set.jpg',
-        '18463163'=>'http://st.depositphotos.com/1557418/1846/v/170/depositphotos_18463163-Cinema-icon.jpg',
-        '30194337'=>'http://st.depositphotos.com/1557418/3019/v/170/depositphotos_30194337-Vector-flat-icon.jpg',
-        '25146565'=>'http://st.depositphotos.com/1557418/2514/v/170/depositphotos_25146565-Hot-chocolate-splash.jpg')
+	"items" => array(array('item_id' => '36794227', 'thumb'=>'http://st.depositphotos.com/1557418/3679/v/170/depositphotos_36794227-Car-icon-set.jpg'),
+        array('item_id'=>'18463163','thumb'=>'http://st.depositphotos.com/1557418/1846/v/170/depositphotos_18463163-Cinema-icon.jpg'),
+         array('item_id'=>'30194337','thumb'=>'http://st.depositphotos.com/1557418/3019/v/170/depositphotos_30194337-Vector-flat-icon.jpg'),
+         array('item_id'=>'25146565','thumb'=>'http://st.depositphotos.com/1557418/2514/v/170/depositphotos_25146565-Hot-chocolate-splash.jpg'),
+         array('item_id' => '26995965', 'thumb' => 'http://st.depositphotos.com/1557418/2699/v/110/depositphotos_26995965-Vector-travel-car.jpg'),
+         array('item_id' => '30194411', 'thumb' => 'http://st.depositphotos.com/1557418/3019/v/110/depositphotos_30194411-Funny-school-bus-illustration.jpg'))
 	)));
 
 

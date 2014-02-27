@@ -3,7 +3,7 @@ class workerShutterFiles
 {
 	public function FillingArrayShutter($url, $i, $folder){
 		$arrayShutter = array();
-		$page = file_get_contents($url);
+		$page = file_get_contents($url."?sort_method=newest&safesearch=1");
         preg_match_all('/<img src="http:\/\/thumb.*\.jpg/', $page, $arr);
         foreach ($arr[0] as $value) {
             $arrayShutter[] = preg_replace('/<img src="/', "", $value);
