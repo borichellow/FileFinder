@@ -68,6 +68,7 @@ class FindeImages
             }
             exec("rm ./".$folder."/Results/*.txt");
         }
+        print count ($IDsArray)." files were found!\n";
         return $IDsArray;
     }
 }

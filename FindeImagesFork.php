@@ -1,6 +1,6 @@
 <?php
 
-class FindeImages2
+class FindeImagesFork
 {
 	public function SharePixel($pixel){
         $r = ($pixel >> 16) & 0xFF;
@@ -80,27 +80,80 @@ class FindeImages2
         } else {return 0;}
     }
 
+    private function AnalizWorkers($keyD , $folder){
+        if(file_get_contents("./".$folder."/Results/flag.txt") == "found"){
+            $file = file_get_contents("./".$folder."/Results/result.txt");
+            $array = array('deposit' => $keyD, 'shutter' => (int)$file);
+        }else{$array = "not found";}
+        exec("rm -f ./".$folder."/Results/*.txt");
+        return $array;
+    }
+
+    private function worker($depositFile, $shutterFile, $folder){
+        $compare = $this->Comparator($depositFile, $shutterFile['thumb']);
+        if($compare > 0.85){
+            file_put_contents("./".$folder."/Results/flag.txt", "found");
+            file_put_contents("./".$folder."/Results/result.txt", $shutterFile['id']);
+        }
+    }
+
+    private function ForkingCompare($imageD, $arrayShutter, $folder){
+        $worker_processes = 4;
+        $child_processes = array();
+        file_put_contents("./".$folder."/Results/flag.txt", "");
+        file_put_contents("./".$folder."/Results/result.txt", "");
+
+        for ($i = 0; $i < $worker_processes; $i++) {
+
+            $child_pid = pcntl_fork();
+            
+            if ($child_pid == -1) {
+                die ("Can't fork process");
+            } elseif ($child_pid) {
+                //print "Parent, created child: $child_pid\n";
+                $child_processes[] = $child_pid;     
+            
+                // В данный момент все процессы отфоркнуты, можно начать ожидание
+                if ($i == ( $worker_processes -1 ) ) {
+                    foreach ($child_processes as $process_pid) {
+                        // Ждем завершение заданного дочернего процесса
+                        $status = 0;
+                        pcntl_waitpid($process_pid, $status); 
+                    }
+                }
+            } else {
+                $files = 0;
+                $count = count($arrayShutter);
+                while (($files*$worker_processes+$i) < $count &&
+                 file_get_contents("./".$folder."/Results/flag.txt") != "found") {
+                    $this->worker($imageD, $arrayShutter[($files*$worker_processes+$i)], $folder);
+                    $files++;
+                }
+                exit(0);
+            }
+        }
+    }
 /*  
     $arrayDeposit: 'fileID' => 'URL to thumb' (that should be found) 
     $arrayShutter: array('URL to thumb') (that belong to this author on shutter)
     return: IDsArray: 'depositID' => 'shutterID'
 */
-    public function FindeImage($arrayDeposit, $arrayShutter){
+    public function FindeImage($arrayDeposit, $arrayShutter, $folder){
         $IDsArray = array();
         foreach ($arrayDeposit as $keyD => $valueD) {
             $time = microtime(true);
             $imageD = imagecreatefromjpeg($valueD);
             if($imageD){
-                foreach ($arrayShutter as $valueS) {
-                    if ($this->Comparator($imageD, $valueS['thumb']) > 0.85){
-                        $IDsArray[] = array('deposit' => $keyD, 'shutter' => $valueS['id']);
-                        print "File ".$keyD. " was found!!!\n";
-                        break;
-                    }
+                $this->ForkingCompare($imageD, $arrayShutter, $folder);
+                $result = $this->AnalizWorkers($keyD, $folder);
+                if (is_array($result)){
+                    $IDsArray[] = $result;
                 }
             }
             print "one file worked! time: ". (microtime(true) - $time). " sec \n";
         }
+        //var_dump($IDsArray);
+        print count($IDsArray)." files were found!\n";
         return $IDsArray;
     }
 }

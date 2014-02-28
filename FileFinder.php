@@ -1,6 +1,8 @@
 <?php
 include_once "ShutterstockFiles.php";
+include_once "FindeImagesFork.php";
 include_once "FindeImages.php";
+include_once "FindeImages2.php";
 include_once "GetDataFromShutter.php";
 include_once "PreCondition.php";
 include_once "CashFiles.php";
@@ -11,7 +13,7 @@ class FileFinder
 {
     public function FindData($File){
         $files = new ShutterstockFiles();
-        $finder = new FindeImages();
+        $finder = new FindeImagesFork();
         $getdata = new GetDataFromShutter();
         $cash = new CashFiles();
         $pre = new PreCondition();
