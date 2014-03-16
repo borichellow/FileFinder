@@ -94,7 +94,7 @@ class FindeImages2
                 foreach ($arrayShutter as $valueS) {
                     if ($this->Comparator($imageD, $valueS['thumb']) > 0.85){
                         $IDsArray[] = array('deposit' => $keyD, 'shutter' => $valueS['id']);
-                        print "File ".$keyD. " was found!!!\n";
+                        //print "File ".$keyD. " was found!!!\n";
                         break;
                     }
                 }

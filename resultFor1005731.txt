@@ -1,0 +1,22 @@
+{
+    "items": [
+        {
+            "item_id": 7299114,
+            "title": "Music background party",
+            "keywords": "adults, audience, background, bang, beautiful, boys, bright, celebration, cheer, cheerful, crowd, dance, decoration, design, display, event, explosion, festive, flash, fun, girls, glitter, glowing, graphic, group, happy, holiday, illustration, lights, men, music, night, november, party, people, pretty, show, silhouette, spark, stars, success, vector",
+            "shutterstock_item_id": "87060674"
+        },
+        {
+            "item_id": 26329537,
+            "title": "Karate warrior. illustration with place for text",
+            "keywords": "art, athlete, background, belt, block, china, chinese, combat, defense, fight, fighter, fist, fitness, foot, glove, illustration, individual, japan, japanese, karate, kick, martial, move, movement, ninja, people, pose, position, practice, punch, sidekick, silhouettes, skill, sport, street, strong, war, warrior",
+            "shutterstock_item_id": "140997784"
+        },
+        {
+            "item_id": 7618617,
+            "title": "Bodybuilding. Vector illustration.",
+            "keywords": "gym, fit, fitness, strong, vector, arm, training, strength, shoulder, bicep, human, boy, weight, background, build, macho, posture, handsome, steroids, guy, attractive, chest, power, deltoids, pose, bodybuilding, adult, workout, male, torso, muscle, illustration, lifestyle, young, stomach, bodybuilder, body, men, athlete, muscular, beauty, masculine, huge, art, exercise, perfect, sport, sexy, eps10",
+            "shutterstock_item_id": "73526044"
+        }
+    ]
+}

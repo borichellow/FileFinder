@@ -1,6 +1,16 @@
 <?php 
 class ShutterstockFiles
 {
+    private function file_get_contents_curl($url) {
+        $curl_handle=curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL,$url);
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+        $query = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        return $query;
+    } 
 
 	private function Waiter($results, $folder){
         echo "Waiting fot workers...Shutter Portfolio\n";
@@ -22,7 +32,7 @@ class ShutterstockFiles
 	}
 
 	private function GetCountOfFiles($portfolio){
-		$portfolio = file_get_contents($portfolio);
+		$portfolio = $this->file_get_contents_curl($portfolio);
         preg_match_all('/id="pf_num_images">.*<\/li>/', $portfolio, $count1);
         preg_match('/\d+/', $count1[0][0], $count);
         $count = (int)$count[0];

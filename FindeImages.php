@@ -61,11 +61,13 @@ class FindeImages
     public function FindeImage($arrayDeposit, $arrayShutter, $folder){
         $IDsArray = array();
         foreach ($arrayDeposit as $keyD => $valueD) {
+            $time = microtime(true);
             $id = $this->findShutterImage($valueD, $arrayShutter, $folder);
             if ($id != 0){
                 //$IDsArray[$keyD] = $id;
                 $IDsArray[] = array('deposit' => $keyD, 'shutter' => $id);
             }
+            print "one file worked! time: ". (microtime(true) - $time). " sec \n";
             exec("rm ./".$folder."/Results/*.txt");
         }
         print count ($IDsArray)." files were found!\n";

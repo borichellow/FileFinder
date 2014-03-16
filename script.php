@@ -1,14 +1,20 @@
 <?php
-file_put_contents("1.json", json_encode(array(
-	"user_id" => "1557418",
-	"shutterstock_profile_url" => "http://www.shutterstock.com/cat.mhtml?gallery_id=844213",
-	"items" => array(array('item_id' => '36794227', 'thumb'=>'http://st.depositphotos.com/1557418/3679/v/170/depositphotos_36794227-Car-icon-set.jpg'),
-        array('item_id'=>'18463163','thumb'=>'http://st.depositphotos.com/1557418/1846/v/170/depositphotos_18463163-Cinema-icon.jpg'),
-         array('item_id'=>'30194337','thumb'=>'http://st.depositphotos.com/1557418/3019/v/170/depositphotos_30194337-Vector-flat-icon.jpg'),
-         array('item_id'=>'25146565','thumb'=>'http://st.depositphotos.com/1557418/2514/v/170/depositphotos_25146565-Hot-chocolate-splash.jpg'),
-         array('item_id' => '26995965', 'thumb' => 'http://st.depositphotos.com/1557418/2699/v/110/depositphotos_26995965-Vector-travel-car.jpg'),
-         array('item_id' => '30194411', 'thumb' => 'http://st.depositphotos.com/1557418/3019/v/110/depositphotos_30194411-Funny-school-bus-illustration.jpg'))
-	)));
+file_put_contents("testing2.json", json_encode(array(
+	"user_id" => "1511009",
+	"shutterstock_profile_url" => "http://www.shutterstock.com/gallery-1511009p1.html",
+	"items" => array(array('item_id' => '42322979', 'thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42322979-empty.jpg'),
+         array('item_id'=>'42322981','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42322981-empty.jpg'),
+         array('item_id'=>'42322987','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42322987-empty.jpg'),
+         array('item_id'=>'42322989','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42322989-empty.jpg'),
+         array('item_id'=>'42322997','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42322997-empty.jpg'),
+         array('item_id'=>'42323011','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323011-empty.jpg'),
+         array('item_id'=>'42323033','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323033-empty.jpg'),
+         array('item_id'=>'42323105','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323105-empty.jpg'),
+         array('item_id'=>'42323111','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323111-empty.jpg'),
+         array('item_id'=>'42323305','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323305-Woman-in-elegant-evening-dress.jpg'),
+         array('item_id'=>'42323347','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323347-Young-girl-in-a-beautiful-dress.jpg'),
+         array('item_id'=>'42323361','thumb'=>'http://st.depositphotos.com/2422217/4232/i/110/depositphotos_42323361-Young-girl-in-a-beautiful-dress.jpg'))
+	), JSON_PRETTY_PRINT));
 
 
 

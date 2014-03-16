@@ -44,5 +44,4 @@ class GetDataFromShutter
         }
         return $fileData;
     }
-
 }

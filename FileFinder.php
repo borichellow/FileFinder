@@ -6,6 +6,7 @@ include_once "FindeImages2.php";
 include_once "GetDataFromShutter.php";
 include_once "PreCondition.php";
 include_once "CashFiles.php";
+include_once "CashFilesFork.php";
 include_once "ConvertRezult.php";
 include_once "PostCondition.php";
 
@@ -13,7 +14,7 @@ class FileFinder
 {
     public function FindData($File){
         $files = new ShutterstockFiles();
-        $finder = new FindeImagesFork();
+        $finder = new FindeImages2();
         $getdata = new GetDataFromShutter();
         $cash = new CashFiles();
         $pre = new PreCondition();
@@ -37,7 +38,8 @@ class FileFinder
         print "Time for Getting Data from shutter: ".(microtime(true) - $time). " seconds\n";
         $Data = $convert->convertToJson($Data, $folder, $AllFilesShuter);
         $post->PostConditions($folder);
-        print "Full time of working: ".(microtime(true) - $time). " seconds\n";
+        print "!!!END!!! \nFull time of working: ".(microtime(true) - $time). " seconds\n"
+                .count($ID_deposit_shutter)." files from ".count($Pre['items']). " were found\n";
         return $Data;
         //return "END! ".count($Data). " files found!!!";
     }

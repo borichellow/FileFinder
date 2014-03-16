@@ -98,7 +98,7 @@ class FindeImagesFork
     }
 
     private function ForkingCompare($imageD, $arrayShutter, $folder){
-        $worker_processes = 4;
+        $worker_processes = 5;
         $child_processes = array();
         file_put_contents("./".$folder."/Results/flag.txt", "");
         file_put_contents("./".$folder."/Results/result.txt", "");
