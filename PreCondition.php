@@ -56,12 +56,11 @@ class PreCondition
         $file = json_decode(file_get_contents($file),true);
         $file['shutterstock_profile_url'] = $this->GetNormalURL($file['shutterstock_profile_url']);
         $file['items'] = $this->NormalizationItemsArray($file['items']);
-        $folder = $file['user_id'];
-        exec("mkdir ".$folder);
-        exec("mkdir ".$folder."/ShutterFiles");
-        exec("mkdir ".$folder."/Results");
-        exec("mkdir ".$folder."/DepositFiles");
-        exec("mkdir ".$folder."/Data");
+        exec("mkdir ".$file['user_id']);
+        exec("mkdir ".$file['user_id']."/ShutterFiles");
+        exec("mkdir ".$file['user_id']."/Results");
+        exec("mkdir ".$file['user_id']."/DepositFiles");
+        exec("mkdir ".$file['user_id']."/Data");
         return $file;
     }
 }

@@ -20,15 +20,26 @@ class CashFiles
 
     private function waiter($results){
         echo "Waiting fot workers...Cash for file\n";
-        do{
-            $flag = "yes";
+        for($i = 0; $i<180;$i++){
+            $flag = true;
             foreach ($results as $file) {
                 if(!(file_exists($file))){
-                    $flag = "no";
+                    $flag = false;
                     break;
                 }
             }
-        }while($flag == "no");
+            if($flag){
+            	break;
+            }
+            sleep(1);
+        }
+        if(!$flag){
+        	print "---------------------------------
+        		\n!!! Oops something went wrong !!! 
+        		\n  !!! Check the connection !!!
+        		\n---------------------------------\n";
+        	exit;
+        }
     }
 
 	/*
@@ -41,11 +52,10 @@ class CashFiles
 		while ($i < count($arrayShutter)){
 			$results = array();
 			for ($ii = 0; $ii < 200; $ii++){
-				$file = $arrayShutter[$i];
-				$adress = './' . $folder . '/ShutterFiles/' . $file['id'] . '.jpg';
+				$adress = './' . $folder . '/ShutterFiles/' . $arrayShutter[$i]['id'] . '.jpg';
 				$results[] = $adress;
-				exec("php workerCashFiles.php ".$file['thumb']." ".$adress." >> /dev/null &");
-				$arrayShutterNew[] = array('id' => $file['id'], 'thumb' => $adress);
+				exec("php workerCashFiles.php ".$arrayShutter[$i]['thumb']." ".$adress." >> /dev/null &");
+				$arrayShutterNew[] = array('id' => $arrayShutter[$i]['id'], 'thumb' => $adress);
 				$i++;
                 if($i == count($arrayShutter)){break;}
 			}

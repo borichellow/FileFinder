@@ -26,20 +26,23 @@ class FileFinder
         $Portfolio = $Pre['shutterstock_profile_url'];
         $folder = $Pre['user_id'];
         $FileThumbs = $Pre['items'];
-        print "Time for PreConditions: ".(microtime(true) - $time). " seconds\n";
+        print "Time for PreConditions: ".(int)(microtime(true) - $time). " seconds\n";
         $AllFilesShuter = $files->ShutterFiles($Portfolio, $folder);
-        print "Time for Getting portfolio from shutter: ".(microtime(true) - $time). " seconds\n";
-        $AllFilesShuter = $cash->CashShutter($AllFilesShuter, $folder);
+        print "Time for Getting portfolio from shutter: ".(int)(microtime(true) - $time). " seconds\n";
         $FileThumbs = $cash->CashDeposit($FileThumbs, $folder);
-        print "Time for Cashing: ".(microtime(true) - $time). " seconds\n";
+        $AllFilesShuter = $cash->CashShutter($AllFilesShuter, $folder);
+        print "Time for Cashing: ".(int)(microtime(true) - $time). " seconds\n";
         $ID_deposit_shutter = $finder->FindeImage($FileThumbs, $AllFilesShuter, $folder);
-        print "Time for Search of files: ".(microtime(true) - $time). " seconds\n";
+        print "Time for Search of files: ".(int)(microtime(true) - $time). " seconds\n";
         $Data = $getdata->GetData($ID_deposit_shutter, $folder);
-        print "Time for Getting Data from shutter: ".(microtime(true) - $time). " seconds\n";
+        print "Time for Getting Data from shutter: ".(int)(microtime(true) - $time). " seconds\n";
         $Data = $convert->convertToJson($Data, $folder, $AllFilesShuter);
         $post->PostConditions($folder);
-        print "!!!END!!! \nFull time of working: ".(microtime(true) - $time). " seconds\n"
-                .count($ID_deposit_shutter)." files from ".count($Pre['items']). " were found\n";
+        print "---------------------------------\n
+            !!! END !!!
+            \n Full time of work: ".(int)(microtime(true) - $time). " seconds\n  "
+            .count($ID_deposit_shutter)." files from ".count($Pre['items']). " were found\n
+            \n---------------------------------\n";
         return $Data;
         //return "END! ".count($Data). " files found!!!";
     }

@@ -1,7 +1,6 @@
 <?php 
-class worker
-{
-    private function createImage($imgURL){
+
+    function createImage($imgURL){
         for($i = 0; $i < 10; $i++){
             $img = imagecreatefromjpeg($imgURL);
             $i++;
@@ -17,7 +16,7 @@ class worker
         }
     }
 
-    public function SharePixel($pixel){
+    function SharePixel($pixel){
 		$r = ($pixel >> 16) & 0xFF;
         $g = ($pixel >> 8) & 0xFF;
         $b = $pixel & 0xFF;
@@ -27,24 +26,24 @@ class worker
         return array('r' => $r, 'g' => $g, 'b' => $b);
     }
 
-    public function GetPixelCount($rgbD, $rgbS){
+    function GetPixelCount($rgbD, $rgbS){
         $count = (255 - abs($rgbD-$rgbS))/255;
         return $count;
     }
 
-    public function PixelCompare($pixelD , $pixelS){
-        $rgbD = $this->SharePixel($pixelD);
-        $rgbS = $this->SharePixel($pixelS);
+    function PixelCompare($pixelD , $pixelS){
+        $rgbD = SharePixel($pixelD);
+        $rgbS = SharePixel($pixelS);
         $count = array();
         foreach ($rgbD as $key => $value) {
-            $count[$key] = $this->GetPixelCount($value, $rgbS[$key]);
+            $count[$key] = GetPixelCount($value, $rgbS[$key]);
         }
         return $count['r']*$count['g']*$count['b'];
     }
 
-    public function NormalizationShutterFile($shutterstockItemThumbURL, $x, $y){
+    function NormalizationShutterFile($shutterstockItemThumbURL, $x, $y){
         //$image2 = imagecreatefromjpeg($shutterstockItemThumbURL);
-        $image2 = $this->createImage($shutterstockItemThumbURL);
+        $image2 = createImage($shutterstockItemThumbURL);
         if (is_string($image2)){
             return $image2;
         }else{
@@ -59,17 +58,17 @@ class worker
         }
     }
     
-    public function Comparator($depositItemThumbURL, $image2){
+    function Comparator($depositItemThumbURL, $image2){
         //$r = rand(111, 999);
         //$imageD = imagecreatefromjpeg($depositItemThumbURL);
-        $imageD = $this->createImage($depositItemThumbURL);
+        $imageD = createImage($depositItemThumbURL);
         if (is_string($imageD)){
             return $imageD;
         }else{
             //imagejpeg($imageD , './input_' . $r . '.jpg');
             $xD = imagesx($imageD);
             $yD = imagesy($imageD);
-            $imageS = $this->NormalizationShutterFile($image2, $xD, $yD);
+            $imageS = NormalizationShutterFile($image2, $xD, $yD);
             if (is_string($imageS)){
                 return $imageS;
             }else{
@@ -93,7 +92,7 @@ class worker
                                 for($x = $arrayX[$ii]; $x < $arrayX[($ii +1)]; $x ++){
                                     $pixelD = imagecolorat($imageD, $x, $y);
                                     $pixelS = imagecolorat($imageS, $x, $y);
-                                    $count = $count + $this->PixelCompare($pixelD, $pixelS);
+                                    $count = $count + PixelCompare($pixelD, $pixelS);
                                 }
                             }
                             $square ++;
@@ -110,15 +109,15 @@ class worker
         }
     }
 
-    public function hardWork($depositThumbURL, $shutterstockThumbURL, $shutterID, $folder){
-    	$result = $this->Comparator($depositThumbURL, $shutterstockThumbURL);
+    function hardWork($depositThumbURL, $shutterstockThumbURL, $shutterID, $folder){
+    	$result = Comparator($depositThumbURL, $shutterstockThumbURL);
     	file_put_contents("./".$folder."/Results/".$shutterID.".txt", $result);
         var_dump($result);
     }
 	
-}
- $worker = new worker();
- $worker->hardWork($argv[1], $argv[2], $argv[3], $argv[4]);
+
+ 
+hardWork($argv[1], $argv[2], $argv[3], $argv[4]);
 
 //$t = microtime(true);
 // $worker->hardWork("http://static8.depositphotos.com/1000270/1042/i/170/depositphotos_10428181-Red-wine-bottle-and-fruit-with-glass.jpg", 
